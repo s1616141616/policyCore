@@ -1,0 +1,996 @@
+{
+	"info": {
+		"_postman_id": "814c5e1a-9668-4245-ac6c-2e5af1cbfaca",
+		"name": "MSP Reject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Non Condo Policy with New Business (nonMSP)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "62cb1397-aef9-4e11-a969-287a149e7896",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"Fax\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-01-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150023070);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 2509105);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Fire\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c0db631-52ff-442c-852e-48e0f5a5acec",
+						"exec": [
+							"var response=JSON.parse(responseBody)",
+							"postman.setGlobalVariable(\"policyTermKey\",response.impactedPolicyTermKey)",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const schema = {",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"policyTermAuditEventId\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"impactedPolicyTermKey\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"policyTransactionKey\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"actionTaken\": {",
+							"      \"type\": \"string\"",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"policyTermAuditEventId\",",
+							"    \"impactedPolicyTermKey\",",
+							"    \"policyTransactionKey\",",
+							"    \"actionTaken\"",
+							"  ]",
+							"};",
+							"",
+							"pm.test(\"Schema is valid\" , function() {",
+							"    pm.expect(tv4.validate(response, schema)).to.be.true;",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}"
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.Core/api/PolicyTerm",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.Core",
+						"api",
+						"PolicyTerm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Non Condo Policy with New Business (MSP)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "62cb1397-aef9-4e11-a969-287a149e7896",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"MSP\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2017-01-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2018-01-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150008254);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 2509105);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Fire\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c0db631-52ff-442c-852e-48e0f5a5acec",
+						"exec": [
+							"var response=JSON.parse(responseBody)",
+							"postman.setGlobalVariable(\"policyTermKey\",response.impactedPolicyTermKey)",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const schema = {",
+							"    ",
+							"    \"type\" : \"object\",",
+							"    \"properties\" : {",
+							"        \"code\" : {\"type\": \"object\"}",
+							"        ",
+							"    },",
+							"    ",
+							"    \"required\" : [\"code\"],",
+							"};",
+							"",
+							"",
+							"",
+							"pm.test(\"Schema\" , () => {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}"
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.Core/api/PolicyTerm",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.Core",
+						"api",
+						"PolicyTerm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming MSP Policy is not load to SSP if it overlaps non MSP Policy with more than 30 days difference",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "169aa0ca-9bd8-4171-a78d-225790710213",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"MSP : Conversion\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-12-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-12-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150023070);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Fire\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "542e30b5-5152-4074-b0ed-62cfe5d7cae7",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"const schema = {\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"validationResult\": {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"isValid\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        },\r",
+							"        \"errors\": {\r",
+							"          \"type\": \"array\",\r",
+							"          \"items\": {}\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"isValid\",\r",
+							"        \"errors\"\r",
+							"      ]\r",
+							"    },\r",
+							"    \"isIncomingPinLpiPreferred\": {\r",
+							"      \"type\": \"boolean\"\r",
+							"    },\r",
+							"    \"doesIncomingPinQualifyForMspRejection\": {\r",
+							"      \"type\": \"boolean\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"validationResult\",\r",
+							"    \"isIncomingPinLpiPreferred\",\r",
+							"    \"doesIncomingPinQualifyForMspRejection\"\r",
+							"  ]\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Schema is valid\" , function() {\r",
+							"    pm.expect(tv4.validate(response, schema)).to.be.true;\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming Policy Transaction is completely Discarded and NOT load to SSP When MSP Policy And Fire and HomeOwners are considered as same Subtype",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f4fff6b-eb38-44b6-8a2b-55034dbcb8b0",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"MSP\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-12-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-12-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150023070);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Homeowners\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acdd2655-fb7a-4acf-aa33-f65f33696cf4",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming Policy Transaction is not Discarded and loaded to SSP When NON MSP Policy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f4fff6b-eb38-44b6-8a2b-55034dbcb8b0",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"Fax\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-12-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-12-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150023070);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Fire\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acdd2655-fb7a-4acf-aa33-f65f33696cf4",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming Policy Transaction is not Discarded and loaded to SSP When MSP Policy And Property NOT matches",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f4fff6b-eb38-44b6-8a2b-55034dbcb8b0",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"MSP\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-12-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-12-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150007269);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Homeowners\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acdd2655-fb7a-4acf-aa33-f65f33696cf4",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming Policy Transaction is not Discarded and loaded to SSP When MSP Policy And Subtype NOT matches",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f4fff6b-eb38-44b6-8a2b-55034dbcb8b0",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"MSP\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-12-01\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-12-01\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150023070);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Wind\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acdd2655-fb7a-4acf-aa33-f65f33696cf4",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming Policy Transaction is not Discarded and loaded to SSP When MSP Policy And Term dates are between 0-30 days",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f4fff6b-eb38-44b6-8a2b-55034dbcb8b0",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"MSP\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2019-12-02\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2020-12-02\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150023070);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Fire\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acdd2655-fb7a-4acf-aa33-f65f33696cf4",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that incoming Non MPS Policy is loaded to SSP if there is matching MSP Policy exists in SSP",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f4fff6b-eb38-44b6-8a2b-55034dbcb8b0",
+						"exec": [
+							"//postman.setGlobalVariable(\"quoteNumber\", \"Quote\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"applicationNumber\", \"Application\" + parseInt(Math.random() * 10000000));\r",
+							"//postman.setGlobalVariable(\"binderNumber\", \"Binder\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"policyNumber\", \"AvengersPolicy\" + parseInt(Math.random() * 10000000));\r",
+							"postman.setGlobalVariable(\"sourceType\", \"Policy Add UI - Website\"); //Policy Add UI - Website\r",
+							"postman.setGlobalVariable(\"callerType\", \"CallerType1\");\r",
+							"postman.setGlobalVariable(\"effectiveDate\", \"2017-12-02\");\r",
+							"postman.setGlobalVariable(\"expirationDate\", \"2018-12-02\");\r",
+							"postman.setGlobalVariable(\"issueDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"cancellationEffectiveDate\", \"2019-01-01\");\r",
+							"//postman.setGlobalVariable(\"reinstatementEffectiveDate\", \"2019-01-01\");\r",
+							"postman.setGlobalVariable(\"documentId\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"documentType\", \"Policy\");\t\t//Cancellation\r",
+							"postman.setGlobalVariable(\"documentSubType\", \"New Business\");\t//Cancellation - Unknown Reason\r",
+							"postman.setGlobalVariable(\"policyState\", null);\r",
+							"postman.setGlobalVariable(\"followBilling\", \"Insurance Company\");\r",
+							"postman.setGlobalVariable(\"billingMethod\", \"Agent\");\r",
+							"postman.setGlobalVariable(\"agencyKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sessionKey\", \"{{$guid}}\");\r",
+							"postman.setGlobalVariable(\"sourceKey\", \"{{$guid}}\");\r",
+							"//postman.setGlobalVariable(\"cancellationReasonType\", \"Unknown Reason\");\r",
+							"postman.setGlobalVariable(\"clientPortfolioId\", 49);\r",
+							"postman.setGlobalVariable(\"customerPropertyId\", 150008254);\r",
+							"//postman.setGlobalVariable(\"buildingId\", 1623811);\r",
+							"postman.setGlobalVariable(\"numberOfUnitsCovered\", 0);\r",
+							"postman.setGlobalVariable(\"policySubType\", \"Fire\");\r",
+							"postman.setGlobalVariable(\"coverageType\", \"Primary Structure - Entire Structure\");\r",
+							"postman.setGlobalVariable(\"naicNumber\", 98181);\r",
+							"postman.setGlobalVariable(\"policyPremiumAmount\", 10000);\r",
+							"postman.setGlobalVariable(\"propertyPremiumAmount\", 1000);\r",
+							"postman.setGlobalVariable(\"policyPaidIndicator\", \"false\");\r",
+							"postman.setGlobalVariable(\"coverageAmount\", 150000);\r",
+							"postman.setGlobalVariable(\"userId\", \"bx8351\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acdd2655-fb7a-4acf-aa33-f65f33696cf4",
+						"exec": [
+							"var response=JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Load to ODS eligable is: \" + response.doesIncomingPinQualifyForMspRejection, function () {\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"policyTermKey\"\t\t:\tnull,\r\n\t\r\n\t\"quoteNumber\"\t\t:\tnull,\r\n\t\"applicationNumber\"\t:\tnull,\r\n\t\"binderNumber\"\t\t:\tnull,\r\n\t\"policyNumber\"\t\t:\t\"{{policyNumber}}\",\r\n\t\"effectiveDate\"\t\t:\t\"{{effectiveDate}}\",\r\n\t\"expirationDate\"\t:\t\"{{expirationDate}}\",\r\n\t\"policySubType\"\t\t:\t\"{{policySubType}}\",\r\n\t\"naicNumber\"\t\t:\t{{naicNumber}},\r\n\t\"followBilling\"\t\t:\t\"{{followBilling}}\",\r\n\t\"billingMethod\"\t\t:\t\"{{billingMethod}}\",\r\n\t\"agencyKey\"\t\t\t:\t\"{{agencyKey}}\",\r\n   \r\n\t\"mailingAddress\"\t:{\r\n\t\t\t\t\t\t\"addressLine1\":\"7208 Paseo Del Rio\",\r\n\t\t\t\t\t\t\"city\":\"Commerce\",\r\n    \t\t\t\t\t\"state\":\"CA\",\r\n    \t\t\t\t\t\"postalCode\":\"90040\"\r\n\t\t\t\t\t\t},\r\n   \r\n   \"numberOfUnitsCovered\"\t:\t{{numberOfUnitsCovered}},\r\n   \r\n   \r\n   \"floodSopeDetails\"\t\t:{\r\n\t\t\t\t    \t\t\"hasFloodSope\"\t\t:\tnull,\r\n    \t\t\t\t\t\t\"floodSopeStatement\":\tnull\r\n\t\t\t\t\t\t\t},\r\n   \r\n   \"insuredSignaturePresent\"\t:\tnull,\r\n   \r\n   \"premiumAmount\"\t\t\t:\t{{policyPremiumAmount}},\r\n   \"policyPaidIndicator\"\t:\t{{policyPaidIndicator}},\r\n   \"premiumDueDate\"\t\t\t:\t\"2019-01-01\",\r\n   \"premiumDueAmount\"\t\t:\t2001,\r\n   \"MembershipFeeDueAmt\"\t:\t2001,\r\n   \"LateFeeDueAmt\"\t\t\t:\t2001,\r\n   \r\n   \"insureds\":[\r\n\t\t\t   {\r\n\t\t\t\t\"title\"\t\t\t: \"Mr\",\r\n        \t\t\"suffix\"\t\t: \"\",\r\n        \t\t\"firstName\"\t\t:\"Mohammad\",\r\n        \t\t\"lastName\"\t\t:\"Saif\",\r\n        \t\t\"middleName\"\t:\"\"\r\n      }\r\n   ],\r\n   \r\n   \"cancellationDetails\"\t:\tnull,\r\n   \r\n   \"reinstatementDetails\"\t:\tnull,\r\n   \r\n   \"informationSourceDetails\"\t:{\r\n\t\t\t\t\t\t\t\t\"sourceKey\"\t\t:\t\"{{sourceKey}}\",\r\n    \t\t\t\t\t\t\t\"issueDate\"\t\t:\t\"{{issueDate}}\",\r\n    \t\t\t\t\t\t\t\"receivedDate\"\t:\t\"2019-01-01\",\r\n    \t\t\t\t\t\t\t\"sourceType\"\t:\t\"{{sourceType}}\",\r\n    \t\t\t\t\t\t\t\"callerType\"\t:\t\"{{CallerType1}}\",\r\n    \t\t\t\t\t\t\t\"endorsementEffectiveDate\"\t:\t\"2019-01-01\",\r\n    \r\n    \"document\":{\r\n        \t\t\"documentId\"\t\t:\t\"{{documentId}}\",\r\n        \t\t\"documentType\"\t\t:\t\"{{documentType}}\",\r\n        \t\t\"documentSubType\"\t:\t\"{{documentSubType}}\"\r\n      },\r\n      \r\n      \"clientPortfolioId\"\t:\t{{clientPortfolioId}},\r\n      \"sessionKey\"\t\t\t:\t\"{{sessionKey}}\",\r\n      \"ScanDate\"\t\t\t:\t\"2019-01-01\"\r\n   },\r\n   \r\n   \"ProcessName\":\"ImportPinRequest\",\r\n   \"userId\":\"{{userId}}\",\r\n   \"policyState\": \"{{policyState}}\",\r\n   \"isLpi\":false,\r\n   \"lpiPolicyClientPortfolioIds\":[\r\n\r\n   ],\r\n   \r\n   \"forceAdd\"\t\t:\tfalse,\r\n   \"isDataFix\"\t\t:\tfalse,\r\n   \"servicerName\"\t:\t\"string\",\r\n   \"coveredEntities\":[\r\n\t\t\t\t   {\r\n        \t\t\t\"customerPropertyId\"\t:\t{{customerPropertyId}},\r\n        \t\t\t\"buildingId\"\t\t\t:\t{{buildingId}},\r\n        \t\t\t\"address\":{\r\n            \t\t\"addressLine1\"\t\t\t:\t\"123 Main St\",\r\n            \t\t\"city\"\t\t\t\t\t:\t\"Los Angeles\",\r\n            \t\t\"state\"\t\t\t\t\t:\t\"CA\",\r\n            \t\t\"postalCode\"\t\t\t:\t\"90032\"\r\n         },\r\n         \r\n    \"premiumAmount\"\t\t:\t{{propertyPremiumAmount}},\r\n    \"floodZone\"\t\t\t:\t\"A\",\r\n    \"floodProgramType\"\t:\t\"R\",\r\n         \r\n         \"perils\":[\r\n            {\r\n               \"peril\"\t\t\t\t\t:\t\"Fire\",\r\n               \"deductibleAmount\"\t\t:\t1000,\r\n               \"replacementCostValue\"\t:\t100,\r\n               \"coverages\":[\r\n                  {\r\n                     \"coverageAmount\"\t:\t{{coverageAmount}},\r\n                     \"coverageType\"\t\t:\t\"{{coverageType}}\",\r\n                     \"dwellingRcc\"\t\t:\ttrue\r\n                  }\r\n               ]\r\n            }\r\n         ],\r\n         \r\n         \"mortgageeClause\":{\r\n            \"eClauseName\":\"Eclause 1\",\r\n            \"address\":{\r\n               \"addressLine1\":\"123 Main St\",\r\n               \"city\":\"Los Angeles\",\r\n               \"state\":\"CA\",\r\n               \"postalCode\":\"90032\"\r\n            }\r\n         }\r\n      }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intra.ssp-app-policies-sit.assurant.com/Ssp.Policies.DataQualityCheck/api/Validator/IncomingPinDQChecks",
+					"protocol": "https",
+					"host": [
+						"intra",
+						"ssp-app-policies-sit",
+						"assurant",
+						"com"
+					],
+					"path": [
+						"Ssp.Policies.DataQualityCheck",
+						"api",
+						"Validator",
+						"IncomingPinDQChecks"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
